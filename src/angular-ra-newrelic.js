@@ -9,44 +9,35 @@
     throw new Error('NewrelicTiming is not loaded');
   }
 
-  var module = angular.module('ra.newrelic', ['ra.pageload']);
+  angular.module('ra.newrelic', ['ra.pageload']).
+    run(function($rootScope, $location, newrelicTiming) {
+      function changeStart() {
+        newrelicTiming.mark('navStart');
+      }
 
-  if (typeof module.run !== 'function') {
-    return;
-  }
+      function changeSuccess() {
+        newrelicTiming.mark('domLoaded');
+      }
 
-  module.config(function($httpProvider) {
-    $httpProvider.interceptors.push('loadingInterceptor');
-  }).
+      function pageLoad() {
+        newrelicTiming.mark('pageRendered');
+        newrelicTiming.sendNRBeacon($location.path());
+      }
 
-  run(function($rootScope, $location, newrelicTiming) {
-    function changeStart() {
-      newrelicTiming.mark('navStart');
-    }
+      // ngRoute
+      $rootScope.$on('$routeChangeStart', changeStart);
+      $rootScope.$on('$routeChangeSuccess', changeSuccess);
 
-    function changeSuccess() {
-      newrelicTiming.mark('domLoaded');
-    }
+      // ui-router
+      $rootScope.$on('$stateChangeStart', changeStart);
+      $rootScope.$on('$stateChangeSuccess', changeSuccess);
 
-    function pageLoad() {
-      newrelicTiming.mark('pageRendered');
-      newrelicTiming.sendNRBeacon($location.path());
-    }
+      // custom ra.pageload event
+      $rootScope.$on('pageload:ready', pageLoad);
+    }).
 
-    // ngRoute
-    $rootScope.$on('$routeChangeStart', changeStart);
-    $rootScope.$on('$routeChangeSuccess', changeSuccess);
-
-    // ui-router
-    $rootScope.$on('$stateChangeStart', changeStart);
-    $rootScope.$on('$stateChangeSuccess', changeSuccess);
-
-    // custom ra.pageload event
-    $rootScope.$on('pageload:ready', pageLoad);
-  }).
-
-  factory('newrelicTiming', function() {
-    return new NewrelicTiming();
-  });
+    factory('newrelicTiming', function() {
+      return new NewrelicTiming();
+    });
 
 })(window.angular, window.NewrelicTiming);

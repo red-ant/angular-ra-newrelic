@@ -1,7 +1,8 @@
 {
   "name": "angular-ra-newrelic",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "AngularJS service to integrate with NewRelic's Real User Monitoring",
+  "homepage": "https://github.com/red-ant/angular-ra-newrelic",
   "author": {
     "name": "Jason Taylor",
     "email": "jason@redant.com.au"
