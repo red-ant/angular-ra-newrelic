@@ -1,0 +1,36 @@
+{
+  "bitwise": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "forin": true,
+  "freeze": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "noempty": false,
+  "nonew": true,
+  "quotmark": "single",
+  "undef": true,
+  "unused": false,
+  "strict": true,
+  "trailing": true,
+  "eqnull": true,
+  "expr": true,
+  "sub": true,
+  "browser": true,
+  "predef": [
+    "angular",
+
+    "module",
+    "require",
+
+    "beforeEach",
+    "describe",
+    "expect",
+    "it",
+    "inject",
+    "spyOn"
+  ]
+}
