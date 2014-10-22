@@ -9,13 +9,17 @@
     throw new Error('NewrelicTiming is not loaded');
   }
 
-  var module = angular.module('ra.newrelic', []);
+  var module = angular.module('ra.newrelic', ['ra.pageload']);
 
   if (typeof module.run !== 'function') {
     return;
   }
 
-  module.run(function($rootScope, $location, newrelicTiming) {
+  module.config(function($httpProvider) {
+    $httpProvider.interceptors.push('loadingInterceptor');
+  }).
+
+  run(function($rootScope, $location, newrelicTiming) {
     function changeStart() {
       newrelicTiming.mark('navStart');
     }

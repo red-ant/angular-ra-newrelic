@@ -1,7 +1,7 @@
 angular-ra-newrelic.js
 ======================
 
-`ra.newrelic` module is a wrapper around [newrelic-timing](https://github.com/uken/newrelic-timing). It waits for the custom [ra.pageload](https://github.com/red-ant/angular-ra-pageload) 'pageload:ready' event before firing the newRelic 'pageRendered' mark.
+The `ra.newrelic` module is a wrapper around [newrelic-timing](https://github.com/uken/newrelic-timing). It waits for the custom [ra.pageload](https://github.com/red-ant/angular-ra-pageload) 'pageload:ready' event before firing the newRelic 'pageRendered' mark to give a better representation of page load times.
 
 
 ### Installing
@@ -9,15 +9,20 @@ angular-ra-newrelic.js
 Install with bower:
 
 ```
-bower install angular-ra-newrelic
+bower install angular-ra-newrelic --save
 ```
 
 ### Usage
 
-Include `angular-ra-newrelic.js` and `newrelic-timing.js` files in your javascript.
+Include the following js files:
 
+```
+bower_components/newrelic-timing/newrelic-timing.js
+bower_components/angular-ra-pageload/angular-ra-pageload.js
+bower_components/angular-ra-newrelic/angular-ra-newrelic.js
+```
 
-Include `ra.newrelic` as a dependency of your application.
+Add `ra.newrelic` dependency to your application.
 
 ```javascript
 angular.module('application', ['ra.newrelic']);
