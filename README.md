@@ -1,7 +1,7 @@
 angular-ra-newrelic.js
 ======================
 
-`ra.newrelic` module is a wrapper around [newrelic-timing](https://github.com/uken/newrelic-timing). It waits for the 'pageload:ready' event before firing the newRelic 'pageRendered' mark.
+`ra.newrelic` module is a wrapper around [newrelic-timing](https://github.com/uken/newrelic-timing). It waits for the custom [ra.pageload](https://github.com/red-ant/angular-ra-pageload) 'pageload:ready' event before firing the newRelic 'pageRendered' mark.
 
 
 ### Installing
