@@ -20,6 +20,7 @@ module.exports = function(config) {
     files: [
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/angular-ra-pageload/angular-ra-pageload.js',
       'bower_components/newrelic-timing/newrelic-timing.js',
       'src/**/*.js',
       'test/**/*.js'

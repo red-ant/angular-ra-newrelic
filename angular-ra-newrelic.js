@@ -1,8 +1,6 @@
 /*!
- * angular-ra-newrelic.js v0.0.1
+ * angular-ra-newrelic.js v0.0.3
  * 
- * Copyright 2014
- * MIT License
  */
 (function(angular, NewrelicTiming) {
   'use strict';
@@ -15,13 +13,17 @@
     throw new Error('NewrelicTiming is not loaded');
   }
 
-  var module = angular.module('ra.newrelic', []);
+  var module = angular.module('ra.newrelic', ['ra.pageload']);
 
   if (typeof module.run !== 'function') {
     return;
   }
 
-  module.run(function($rootScope, $location, newrelicTiming) {
+  module.config(function($httpProvider) {
+    $httpProvider.interceptors.push('loadingInterceptor');
+  }).
+
+  run(function($rootScope, $location, newrelicTiming) {
     function changeStart() {
       newrelicTiming.mark('navStart');
     }
