@@ -1,6 +1,8 @@
 module.exports = function(grunt) {
   'use strict';
 
+  require('load-grunt-tasks')(grunt);
+
   grunt.initConfig({
     // Configure tasks
     pkg: grunt.file.readJSON('bower.json'),
@@ -11,7 +13,11 @@ module.exports = function(grunt) {
             ' */\n',
 
     jshint: {
-      all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js']
+      all: [
+        'Gruntfile.js',
+        'src/**/*.js',
+        'test/**/*.js'
+      ]
     },
 
     concat: {
@@ -63,7 +69,9 @@ module.exports = function(grunt) {
     bump: {
       options: {
         files: ['package.json', 'bower.json'],
+        updateConfigs: ['pkg'],
         commitFiles: ['-a'],
+        pushTo: 'upstream master',
         push: true,
         createTag: true
       }
@@ -86,10 +94,21 @@ module.exports = function(grunt) {
     }
   });
 
-  // Load grunt tasks
-  require('load-grunt-tasks')(grunt);
-
-  // Register custom tasks
   grunt.registerTask('test', ['karma']);
-  grunt.registerTask('build', ['jshint', 'clean:dist', 'concat', 'ngAnnotate', 'uglify']);
+
+  grunt.registerTask('build', [
+    'jshint',
+    'clean:dist',
+    'concat',
+    'ngAnnotate',
+    'uglify'
+  ]);
+
+  grunt.registerTask('release', function(bumpLevel) {
+    grunt.task.run([
+      'bump-only:' + (bumpLevel || 'patch'),
+      'build',
+      'bump-commit'
+    ]);
+  });
 };
