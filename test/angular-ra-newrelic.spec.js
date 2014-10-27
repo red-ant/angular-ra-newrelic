@@ -4,7 +4,8 @@
   describe('ra.newrelic', function() {
     var $rootScope,
         $location,
-        newrelicTiming;
+        newrelicTiming,
+        spies;
 
     beforeEach(function() {
       module('ra.newrelic');
@@ -15,44 +16,60 @@
         newrelicTiming = $injector.get('newrelicTiming');
       });
 
-      spyOn(newrelicTiming, 'mark');
-      spyOn(newrelicTiming, 'sendNRBeacon');
-      spyOn($location, 'path').andReturn('path');
+      spies = {
+        newrelicTiming: {
+          mark: spyOn(newrelicTiming, 'mark'),
+          sendNRBeacon: spyOn(newrelicTiming, 'sendNRBeacon')
+        },
+
+        location: {
+          path: spyOn($location, 'path').andReturn('path')
+        }
+      };
     });
 
     describe('changeStart >', function() {
       it('should call newrelicTiming.mark on $routeChangeStart', function() {
         $rootScope.$broadcast('$routeChangeStart');
-        expect(newrelicTiming.mark).toHaveBeenCalledWith('navStart');
+        expect(spies.newrelicTiming.mark).toHaveBeenCalledWith('navStart');
       });
 
       it('should call newrelicTiming.mark on $stateChangeStart', function() {
         $rootScope.$broadcast('$stateChangeStart');
-        expect(newrelicTiming.mark).toHaveBeenCalledWith('navStart');
+        expect(spies.newrelicTiming.mark).toHaveBeenCalledWith('navStart');
+      });
+
+      it('should call newrelicTiming.sendNRBeacon when 2 changeStarts are fired', function() {
+        $rootScope.$broadcast('$stateChangeStart');
+        spies.location.path.andReturn('new_path');
+
+        $rootScope.$broadcast('$stateChangeStart');
+        expect(spies.newrelicTiming.sendNRBeacon).toHaveBeenCalledWith('path');
       });
     });
 
     describe('changeSuccess >', function() {
       it('should newrelicTiming.mark on $routeChangeSuccess', function() {
         $rootScope.$broadcast('$routeChangeSuccess');
-        expect(newrelicTiming.mark).toHaveBeenCalledWith('domLoaded');
+        expect(spies.newrelicTiming.mark).toHaveBeenCalledWith('domLoaded');
       });
 
       it('should newrelicTiming.mark on $stateChangeSuccess', function() {
         $rootScope.$broadcast('$stateChangeSuccess');
-        expect(newrelicTiming.mark).toHaveBeenCalledWith('domLoaded');
+        expect(spies.newrelicTiming.mark).toHaveBeenCalledWith('domLoaded');
       });
     });
 
     describe('pageLoad >', function() {
       it('should newrelicTiming.mark on pageload:ready', function() {
         $rootScope.$broadcast('pageload:ready');
-        expect(newrelicTiming.mark).toHaveBeenCalledWith('pageRendered');
+        expect(spies.newrelicTiming.mark).toHaveBeenCalledWith('pageRendered');
       });
 
       it('should newrelicTiming.sendNRBeacon on pageload:ready', function() {
+        $rootScope.$broadcast('$routeChangeStart');
         $rootScope.$broadcast('pageload:ready');
-        expect(newrelicTiming.sendNRBeacon).toHaveBeenCalledWith('path');
+        expect(spies.newrelicTiming.sendNRBeacon).toHaveBeenCalledWith('path');
       });
     });
   });

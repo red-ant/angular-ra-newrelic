@@ -11,7 +11,17 @@
 
   angular.module('ra.newrelic', ['ra.pageload']).
     run(function($rootScope, $location, newrelicTiming) {
+      var path;
+
       function changeStart() {
+        var location_path = $location.path();
+
+        if (path && path !== location_path) {
+          pageLoad();
+        }
+
+        path = location_path;
+
         newrelicTiming.mark('navStart');
       }
 
@@ -21,7 +31,7 @@
 
       function pageLoad() {
         newrelicTiming.mark('pageRendered');
-        newrelicTiming.sendNRBeacon($location.path());
+        newrelicTiming.sendNRBeacon(path);
       }
 
       // ngRoute
