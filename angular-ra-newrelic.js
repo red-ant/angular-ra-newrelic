@@ -1,5 +1,5 @@
 /*!
- * angular-ra-newrelic.js v0.1.2
+ * angular-ra-newrelic.js v0.1.3
  * https://github.com/red-ant/angular-ra-newrelic
  */
 (function(angular, NewrelicTiming) {
@@ -36,6 +36,7 @@
       function pageLoad() {
         newrelicTiming.mark('pageRendered');
         newrelicTiming.sendNRBeacon(path);
+        newrelicTiming.marks = {};
       }
 
       // ngRoute

@@ -1,6 +1,6 @@
 {
   "name": "angular-ra-newrelic",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "AngularJS service to integrate with NewRelic's Real User Monitoring",
   "homepage": "https://github.com/red-ant/angular-ra-newrelic",
   "author": {
