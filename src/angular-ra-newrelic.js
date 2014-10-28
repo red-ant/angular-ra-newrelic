@@ -32,6 +32,7 @@
       function pageLoad() {
         newrelicTiming.mark('pageRendered');
         newrelicTiming.sendNRBeacon(path);
+        newrelicTiming.marks = {};
       }
 
       // ngRoute
