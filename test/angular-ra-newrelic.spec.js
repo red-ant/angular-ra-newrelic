@@ -38,14 +38,6 @@
         $rootScope.$broadcast('$stateChangeStart');
         expect(spies.newrelicTiming.mark).toHaveBeenCalledWith('navStart');
       });
-
-      it('should call newrelicTiming.sendNRBeacon when 2 changeStarts are fired', function() {
-        $rootScope.$broadcast('$stateChangeStart');
-        spies.location.path.andReturn('new_path');
-
-        $rootScope.$broadcast('$stateChangeStart');
-        expect(spies.newrelicTiming.sendNRBeacon).toHaveBeenCalledWith('path');
-      });
     });
 
     describe('changeSuccess >', function() {
@@ -61,15 +53,26 @@
     });
 
     describe('pageLoad >', function() {
+      beforeEach(function() {
+        $rootScope.$broadcast('$routeChangeStart');
+      });
+
       it('should newrelicTiming.mark on pageload:ready', function() {
         $rootScope.$broadcast('pageload:ready');
         expect(spies.newrelicTiming.mark).toHaveBeenCalledWith('pageRendered');
       });
 
       it('should newrelicTiming.sendNRBeacon on pageload:ready', function() {
-        $rootScope.$broadcast('$routeChangeStart');
         $rootScope.$broadcast('pageload:ready');
         expect(spies.newrelicTiming.sendNRBeacon).toHaveBeenCalledWith('path');
+      });
+
+      it('should not call newrelicTiming.mark if path differs', function() {
+        spies.newrelicTiming.mark.reset();
+        spies.location.path.andReturn('new_path');
+
+        $rootScope.$broadcast('pageload:ready');
+        expect(spies.newrelicTiming.mark).not.toHaveBeenCalled();
       });
     });
   });
