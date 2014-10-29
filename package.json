@@ -1,6 +1,6 @@
 {
   "name": "angular-ra-newrelic",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "repository": {
     "type": "git",
     "url": "git://github.com/red-ant/angular-ra-newrelic.git"

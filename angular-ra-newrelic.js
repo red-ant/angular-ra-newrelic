@@ -1,5 +1,5 @@
 /*!
- * angular-ra-newrelic.js v0.1.3
+ * angular-ra-newrelic.js v0.1.4
  * https://github.com/red-ant/angular-ra-newrelic
  */
 (function(angular, NewrelicTiming) {
@@ -18,14 +18,8 @@
       var path;
 
       function changeStart() {
-        var location_path = $location.path();
-
-        if (path && path !== location_path) {
-          pageLoad();
-        }
-
-        path = location_path;
-
+        path = $location.path();
+        resetMarks();
         newrelicTiming.mark('navStart');
       }
 
@@ -34,8 +28,15 @@
       }
 
       function pageLoad() {
-        newrelicTiming.mark('pageRendered');
-        newrelicTiming.sendNRBeacon(path);
+        if (path === $location.path()) {
+          newrelicTiming.mark('pageRendered');
+          newrelicTiming.sendNRBeacon(path);
+        }
+
+        resetMarks();
+      }
+
+      function resetMarks() {
         newrelicTiming.marks = {};
       }
 
