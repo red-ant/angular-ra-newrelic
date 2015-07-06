@@ -18,8 +18,8 @@ Include the following js files:
 
 ```
 bower_components/newrelic-timing/newrelic-timing.js
-bower_components/angular-ra-pageload/angular-ra-pageload.js
-bower_components/angular-ra-newrelic/angular-ra-newrelic.js
+bower_components/angular-ra-pageload/angular-ra-pageload.min.js
+bower_components/angular-ra-newrelic/angular-ra-newrelic.min.js
 ```
 
 Add `ra.newrelic` dependency to your application.
