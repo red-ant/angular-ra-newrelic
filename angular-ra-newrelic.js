@@ -14,7 +14,7 @@
   }
 
   angular.module('ra.newrelic', ['ra.pageload']).
-    run(function($rootScope, $location, newrelicTiming) {
+    run(['$rootScope', '$location', 'newrelicTiming', function($rootScope, $location, newrelicTiming) {
       var path;
 
       function changeStart() {
@@ -50,7 +50,7 @@
 
       // custom ra.pageload event
       $rootScope.$on('pageload:ready', pageLoad);
-    }).
+    }]).
 
     factory('newrelicTiming', function() {
       return new NewrelicTiming();
