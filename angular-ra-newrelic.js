@@ -1,5 +1,5 @@
 /*!
- * angular-ra-newrelic.js v0.1.4
+ * angular-ra-newrelic.js v0.1.5
  * https://github.com/red-ant/angular-ra-newrelic
  */
 (function(angular, NewrelicTiming) {
